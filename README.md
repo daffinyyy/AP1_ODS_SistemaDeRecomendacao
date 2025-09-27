@@ -1,10 +1,13 @@
 # AP1_ODS_SistemaDeRecomendacao  
 
-### pra rodar os requirements:  
-pip install -r requirements.txt
+### Execução do Backend  
+1. Em um terminal, digite cd backend
+2. rode pip install -r requirements.txt
+3. digite cd ..
+4. execute com python -m uvicorn backend.main:app --reload  
 
-### pra rodar o backend:  
-python -m uvicorn backend.main:app --reload
-
-### pra rodar o frontend:  
-python -m streamlit run frontend/app.py
+### Execução do Frontend  
+1. Em um terminal, digite cd frontend
+2. rode pip install -r requirements.txt
+3. digite cd ..
+4. execute com python -m streamlit run frontend/app.py  
