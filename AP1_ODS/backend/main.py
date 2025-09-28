@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 import pandas as pd
 from backend.models import RecommendationResponse, RecommendationRequest, BookInfo
-from backend.funcao_de_recomendacao import recommend_by_category
+from backend.funcao_de_recomendacao import recommend_item_based, books
 
 
 app = FastAPI (
@@ -15,27 +15,21 @@ def health() -> dict:
 #post da API
 @app.post("/recommend", response_model=RecommendationResponse)
 def recommend(request: RecommendationRequest):
-    """
-    recomendação por categoria
-    """
-    # alterar pro atual nome da função dps
-    results_df = recommend_by_category(request.category, top_n=request.top_n)
+    results_df = recommend_item_based(request.book_isbn, top_n=request.top_n)
 
-    #possiveis erros
     if isinstance(results_df, str):
-        return {"error": results_df} 
+        return {"results": []}  #se não encontrar retorna lista vazia
 
     results = [
-    BookInfo(
-        title=row["title"],
-        subtitle=None if pd.isna(row.get("subtitle")) else row.get("subtitle"),
-        authors=None if pd.isna(row.get("authors")) else row.get("authors"),
-        categories=row["categories"],
-        average_rating=float(row["average_rating"]),
-        published_year=int(row["published_year"]),
-        description=None if pd.isna(row.get("description")) else row.get("description")
-    )
-    for _, row in results_df.iterrows()
-]
+        BookInfo(
+            isbn=row["ISBN"],
+            title=row["Book-Title"],
+            author=row["Book-Author"],
+            year=int(row["Year-Of-Publication"]),
+            publisher=row["Publisher"],
+            image_url=row["Image-URL-M"]
+        )
+        for _, row in results_df.iterrows()
+    ]
 
     return {"results": results}

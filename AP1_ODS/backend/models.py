@@ -5,20 +5,19 @@ class RecommendationRequest(BaseModel):
     '''
     pede os 5 livros mais parecidos
     '''
-    category:str
+    book_isbn:str
     top_n: int = 5
 
 class BookInfo(BaseModel):
     '''
     estrutura de infos do livro
     '''
+    isbn: str
     title: str
-    subtitle: Optional[str] = None
-    authors: Optional[str] = None
-    categories: str
-    average_rating: float
-    published_year: int
-    description: Optional[str] = None
+    author: Optional[str] = None
+    year: Optional[int] = None
+    publisher: Optional[str] = None
+    image_url: Optional[str] = None
 
 class RecommendationResponse(BaseModel):
     '''
