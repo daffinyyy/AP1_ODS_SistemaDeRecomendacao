@@ -19,7 +19,9 @@ print(f"Usuário selecionado: {usuario_mais_ativo} ({avaliacoes_por_usuario.max(
 avaliacoes_usuario = ratings[ratings["User-ID"] == usuario_mais_ativo]
 
 #divisao dos dados
-train, test = train_test_split(avaliacoes_usuario, test_size=0.5, random_state=42)
+train, test = train_test_split(avaliacoes_usuario, test_size=0.72, random_state=42)
+print(f"Tamanho do conjunto de treino (gera recomendações): {len(train)}")
+print(f"Tamanho do conjunto de teste (gabarito): {len(test)}")
 
 #PT 1. gerando as recomendações 
 train_isbns = train["ISBN"].tolist() 
@@ -31,7 +33,7 @@ for isbn in train_isbns:
         recomendados.update(recs_df["ISBN"].tolist())
 
 #PT 2. comparando com oq ele realmente gostou
-test_gostou = set(test.query("`Book-Rating` >= 7")["ISBN"].tolist())
+test_gostou = set(test.query("`Book-Rating` >= 6")["ISBN"].tolist())
 
 #calculo da acuracia
 matches = len(recomendados & test_gostou)
