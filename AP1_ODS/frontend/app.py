@@ -41,13 +41,13 @@ with col2:
 
 
 #imput do usuário
-book_isbn = st.text_input("Digite o ISBN do livro que acabou de ler:")
+book_title = st.text_input("Digite o título do livro que acabou de ler:")
 
 #botão
 if st.button("Buscar"):
     logo_placeholder.image(logo_buscar, width=200)
 
-    payload = {"book_isbn": book_isbn} 
+    payload = {"book_title": book_title} 
     response = requests.post(url, json=payload)
 
     logo_placeholder.image(logo_normal, width=200)

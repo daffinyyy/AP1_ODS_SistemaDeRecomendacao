@@ -5,7 +5,7 @@ class RecommendationRequest(BaseModel):
     '''
     pede os 5 livros mais parecidos
     '''
-    book_isbn:str
+    book_title:str
     top_n: int = 5
 
 class BookInfo(BaseModel):

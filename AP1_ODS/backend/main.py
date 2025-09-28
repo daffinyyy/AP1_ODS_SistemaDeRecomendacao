@@ -15,7 +15,15 @@ def health() -> dict:
 #post da API
 @app.post("/recommend", response_model=RecommendationResponse)
 def recommend(request: RecommendationRequest):
-    results_df = recommend_item_based(request.book_isbn, top_n=request.top_n)
+    #converte o título para ISBN
+    matching_books = books[books['Book-Title'].str.lower() == request.book_title.lower()]
+    if matching_books.empty:
+        return {"results": []}  # livro não encontrado
+
+    book_isbn = matching_books.iloc[0]['ISBN']  # pega o ISBN do primeiro match
+
+
+    results_df = recommend_item_based(book_isbn, top_n=request.top_n)
 
     if isinstance(results_df, str):
         return {"results": []}  #se não encontrar retorna lista vazia
